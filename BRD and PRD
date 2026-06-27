@@ -1,0 +1,163 @@
+VHA EduTech - Product Requirements Document (PRD) & Business Requirements Document (BRD)
+1. Product Overview
+Purpose
+VHA EduTech (formerly BuddyBloom) is a comprehensive, multi-tenant learning management system (LMS) and administration platform designed to streamline operations for educational institutions, academies, and tutoring centers. It consolidates attendance, homework assignments, online quizzes, fee management, revenue tracking, and communication into a unified digital ecosystem.
+
+Vision
+To provide a seamless, transparent, and engaging digital experience that connects administrators, teachers, students, and parents. By digitizing routine tasks and offering AI-assisted tutoring, VHA EduTech empowers educators to focus on teaching while keeping parents informed and students engaged.
+
+Target Users
+Educational Institutions: Tutoring centers, academies, small to medium schools.
+Teachers: Instructors managing batches, tracking attendance, and evaluating performance.
+Students: Learners accessing courses, taking quizzes, and interacting with AI tutors.
+Parents: Guardians monitoring their children's academic progress, attendance, and fee status.
+Administrators: Facility owners and managers overseeing revenue, user approvals, and broad academy operations.
+2. User Roles
+Student
+Access Level: Consumer.
+Key Actions: View enrolled courses and batches, take online quizzes, submit homework, view attendance records, access AI Tutor chat, request enrollment in new courses, and apply for leaves.
+Parent
+Access Level: Observer/Payer.
+Key Actions: Monitor linked students' attendance and quiz results, view pending fee statements, and review fee payment history.
+Teacher
+Access Level: Contributor.
+Key Actions: Mark daily attendance for assigned batches, create and grade quizzes, assign and review homework, monitor student performance analytics, and manage class operations.
+Admin
+Access Level: Superuser.
+Key Actions: Approve/reject new user registrations, manage course and batch catalogs, oversee all fee collections and manual payments, track academy revenue and expenses, and generate detailed PDF/Excel reports.
+3. Detailed Features
+Attendance Management
+Daily Check-ins: Teachers mark attendance (Present, Absent, Late, Excused) for batches.
+Leave Management: Students can request leaves; admins/teachers can approve or reject them.
+Holiday Calendar: Admins define academy holidays which sync with attendance views.
+Assignments (Homework)
+Creation: Teachers can create homework assignments for specific batches or individual students, including text descriptions and due dates.
+Submission: Students submit text-based homework.
+Grading: Teachers review submissions and assign grades.
+Assessments (Quizzes)
+Quiz Builder: Teachers create multiple-choice quizzes with point values and correct options.
+Attempt Tracking: Students take quizzes; scores are calculated automatically based on correct answers.
+Performance Analytics: Averages and completion rates are tracked per student and per teacher.
+Financial Management (Revenue & Fees)
+Fee Reminders: Admins can trigger fee reminders for specific students/batches.
+Manual Payments: Admins log manual fee payments (cash/bank transfer).
+Expense Tracking: Admins log academy expenses categorized by type (Salary, Maintenance).
+Income Tracking: Admins log miscellaneous income sources.
+Notifications
+Push Notifications: Handled via Expo Push Tokens. Alerts for fee reminders, new homework, quiz assignments, and registration approvals.
+AI Integration
+AI Tutor Chat: Powered by Google Gemini. Students can chat with an AI teacher for academic assistance. Context history is preserved in the database to maintain conversational continuity.
+Reports & Analytics
+Export Capabilities: Admins can generate and download comprehensive PDF, Word, and Excel reports for Student Directories and Revenue/Fee details.
+Authentication
+Multi-Modal Sign-In:
+Email/Password (with Supabase Auth).
+Google OAuth.
+Mobile Number with OTP (Firebase/Backend verification logic).
+Approval Workflow: Self-registered users (Students, Teachers, Parents) land in a pending state until an Admin approves their account.
+Biometric Security: Optional FaceID/TouchID enablement on the mobile app.
+4. User Workflows
+Student Journey
+Onboarding: Registers via Email, Google, or Mobile. Selects Role ("Student") and requests courses/batches.
+Approval: Waits for Admin approval. Receives push notification upon approval.
+Daily Use: Logs in (optionally via biometrics). Checks Dashboard for upcoming homework or pending quizzes.
+Learning: Interacts with AI Tutor for help. Completes quizzes and views immediate results.
+Parent Journey
+Onboarding: Registers and is linked to their child's account by an Admin.
+Monitoring: Logs in to view a consolidated dashboard of their child's attendance rate and average quiz scores.
+Financials: Receives fee reminders and checks payment status.
+Teacher Journey
+Daily Operations: Logs in to view assigned batches. Marks attendance for the day.
+Instruction: Creates new quizzes or assigns homework to batches.
+Evaluation: Reviews student homework submissions and grades them. Analyzes batch performance via the dashboard.
+Admin Journey
+User Management: Reviews and approves/rejects pending registrations in the "Pending Approvals" screen.
+Financial Oversight: Reviews pending fees, logs manual payments, and adds daily expenses/income.
+Reporting: Generates monthly Excel/PDF reports on revenue and student enrollment.
+5. Data Model Summary
+Core Entities
+User: Base table for all roles (Admin, Teacher, Parent, Student). Stores auth details and UPI info.
+Student: Profile linked to a User, storing DOB and linking to a Parent User.
+PendingRegistration: Temporary holding table for self-signups awaiting admin approval.
+Course & Batch: Hierarchical structure for classes. Batches are assigned to Teachers.
+Enrollment: Links Students to Batches.
+Attendance: Daily records for a Student in a Batch.
+Quiz & Question & Option: Assessment structure.
+QuizAttempt & QuizAttemptAnswer: Student quiz submissions.
+Homework & HomeworkSubmission: Assignment tracking.
+FeePayment: Financial obligations per user.
+Income & Expense: Academy ledger entries.
+ChatMessage: AI Tutor conversation history.
+Relationships
+A Parent (User) has many Students.
+A Teacher (User) manages many Batches.
+A Student has many Attendance, Enrollment, QuizAttempt, and HomeworkSubmission records.
+FeePayments are linked to Users.
+6. API Summary
+Authentication Flows
+POST /auth/register: Creates PendingRegistration.
+POST /auth/login: Validates credentials via Supabase.
+POST /auth/approve/{id}: Admin converts pending to active user.
+POST /auth/google-sync: Syncs OAuth users.
+Existing APIs (Modules)
+/attendance: Bulk creation, status retrieval, leave requests, holidays.
+/dashboard: Role-based aggregated statistics.
+/fees: Bulk reminders, manual payment logging, UPI fetching.
+/revenue: Income and Expense CRUD.
+/quizzes: Quiz creation, attempt submission, analytics.
+/homework: Assignment creation, submission grading.
+/chat: Interacts with Gemini service, fetches history.
+Integrations
+Supabase: Core user authentication and JWT generation.
+Google Gemini: Large Language Model powering the AI Tutor chat.
+Expo Push Notifications: Mobile device push alerts.
+7. Dashboard Capabilities
+Student Dashboard
+Metrics: Attendance Rate (%), Average Quiz Score (%), Total Completed Quizzes.
+Quick Links: Attendance, Fees, Quizzes, Homework, Courses.
+Parent Dashboard
+Metrics: Aggregated stats for linked children (Attendance Rate, Avg Quiz Score).
+Quick Links: Child Results, Attendance, Fees.
+Teacher Dashboard
+Metrics: Average Batch Performance, Active Batches Count, Pending Homework Count.
+Charts: "Weekly Engagement" bar chart showing day-by-day average performance.
+Quick Links: Mark Attendance, Assign Homework, Leave Approvals, Create/View Quizzes.
+Admin Dashboard
+Metrics: Total Revenue, Pending Fees, Total Students, Total Teachers.
+Quick Links: Revenue Tracker, Admin Portal, Pending Approvals, Create Quiz, Fees.
+8. Key Selling Points
+Benefits for Students
+24/7 AI Assistance: Instant help with doubts via the built-in AI Tutor.
+Clarity: Clear visibility into pending homework and upcoming quizzes.
+Engagement: Gamified performance tracking.
+Benefits for Parents
+Transparency: Real-time visibility into child's attendance and academic performance.
+Convenience: Digital fee tracking and reminders.
+Benefits for Teachers
+Efficiency: Drastically reduces time spent on marking attendance and grading multiple-choice quizzes.
+Insights: Actionable analytics on class performance to identify struggling students.
+Benefits for Administrators
+Centralized Control: A single pane of glass for revenue, expenses, and user management.
+Automated Communication: Push notifications eliminate manual follow-ups for fees and announcements.
+Professional Reporting: One-click PDF/Excel generation for audits and stakeholder meetings.
+9. Website Content Recommendations
+As we build the public-facing website for VHA EduTech, the content should focus on conversion (getting academies to sign up for a demo or onboard).
+
+Features to Showcase Publicly
+The "All-in-One" Promise: Highlight that attendance, fees, quizzes, and chat are in one app.
+AI Tutor Integration: Showcase the Gemini-powered chat as a unique differentiator (24/7 learning).
+Financial Dashboard: Show admins how easily they can track revenue, expenses, and pending fees.
+Parent Transparency: Market to schools by showing how happy parents will be with real-time updates.
+Screens That Should Be Displayed (Mockups/Screenshots)
+Admin Revenue Dashboard: Showing the clean UI with Total Revenue and Pending Fees.
+Teacher Weekly Engagement Chart: The bar chart from the mobile app.
+Student AI Chat Interface: Showing a student asking a homework question.
+Parent View: Clean, simple metrics showing attendance and quiz scores.
+Testimonials Section Recommendations
+Target Admin: "VHA EduTech helped us recover 30% more pending fees with automated reminders."
+Target Teacher: "Grading quizzes used to take my entire weekend. Now it's instant."
+Target Parent: "I love knowing exactly how my child is doing without having to wait for parent-teacher meetings."
+Admission Flow Recommendations
+Lead Generation: A "Book a Demo" or "Start Your Free Trial" CTA.
+Onboarding Request: A form for institutions to register their interest, capturing School Name, Student Count, and Contact Info.
+App Download Links: Prominent links to the Apple App Store and Google Play Store for existing users.
