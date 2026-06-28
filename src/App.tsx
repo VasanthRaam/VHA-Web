@@ -1,9 +1,10 @@
 import React, { Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { RootLayout } from './components/layout/RootLayout';
-import { Home } from './pages/Home';
+
 
 // Lazy loaded pages for performance
+const Home = React.lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
 const Courses = React.lazy(() => import('./pages/Courses').then(m => ({ default: m.Courses })));
 const About = React.lazy(() => import('./pages/About').then(m => ({ default: m.About })));
 const Contact = React.lazy(() => import('./pages/Contact').then(m => ({ default: m.Contact })));
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <Suspense fallback={<PageLoader />}><Home /></Suspense> },
       { 
         path: 'courses', 
         element: <Suspense fallback={<PageLoader />}><Courses /></Suspense> 

@@ -10,7 +10,7 @@ export function Footer() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl overflow-hidden bg-white">
                 <img src="/images/app-logo.png" alt="VHA EduTech Logo" className="w-full h-full object-cover" />
               </div>
-              VHA EduTech Academy
+              Vasanth Academy
             </Link>
             <p className="text-zinc-500 dark:text-zinc-400 max-w-sm leading-relaxed transition-colors">
               Empowering students through comprehensive education. We offer expert coaching in Academics, Languages, Dance, Music, and Arts.
@@ -52,7 +52,7 @@ export function Footer() {
         </div>
         
         <div className="mt-16 pt-8 border-t border-black/5 dark:border-white/5 text-center text-sm text-zinc-500 dark:text-zinc-500 transition-colors">
-          <p>&copy; {new Date().getFullYear()} VHA EduTech Academy. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Vasanth Academy. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -19,7 +19,7 @@ export function Navbar() {
           <div className="flex h-8 w-8 items-center justify-center rounded-xl overflow-hidden bg-white shadow-sm border border-zinc-100 dark:border-zinc-800">
             <img src="/images/app-logo.png" alt="VHA Logo" className="w-full h-full object-cover" />
           </div>
-          <span className="text-zinc-900 dark:text-white font-extrabold text-sm tracking-tight">VHA EduTech</span>
+          <span className="text-zinc-900 dark:text-white font-extrabold text-sm tracking-tight">Vasanth Academy</span>
         </Link>
       </div>
 

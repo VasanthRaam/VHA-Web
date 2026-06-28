@@ -63,7 +63,7 @@ export function Contact() {
   return (
     <div className="pt-32 pb-24 px-6 lg:px-8 max-w-7xl mx-auto">
       <Helmet>
-        <title>Enquiry | VHA EduTech Academy</title>
+        <title>Enquiry | Vasanth Academy</title>
       </Helmet>
       
       <div className="grid lg:grid-cols-2 gap-16 items-start">

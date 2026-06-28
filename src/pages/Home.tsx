@@ -6,19 +6,14 @@ import { Badge } from "@/components/ui/Badge";
 import { Link } from "react-router-dom";
 import { Sparkles, PhoneCall, Music, BookOpen, PenTool, Globe, ChevronRight } from "lucide-react";
 import { AppFlowViewer } from "@/components/sections/AppFlowViewer";
-import { ThreePhoneShowcase } from "@/components/sections/ThreePhoneShowcase";
+import { LearningPrograms } from "@/components/sections/LearningPrograms";
+import { StudentLifeGallery } from "@/components/sections/StudentLifeGallery";
 
 export function Home() {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
 
-  const courses = [
-    { title: "Academic Subjects", icon: BookOpen, desc: "Comprehensive coaching for school syllabus.", color: "from-blue-500 to-indigo-500" },
-    { title: "Hindi Language", icon: Globe, desc: "Learn reading, writing, and speaking fluently.", color: "from-green-400 to-emerald-600" },
-    { title: "Dance Academy", icon: Music, desc: "Western and traditional Bharatanatyam classes.", color: "from-rose-400 to-red-600" },
-    { title: "Keyboard & Singing", icon: Music, desc: "Vocal training and instrumental mastery.", color: "from-purple-400 to-purple-600" },
-    { title: "Drawing & Arts", icon: PenTool, desc: "Express creativity through guided art sessions.", color: "from-amber-400 to-orange-500" },
-  ];
+
 
   const scrollToAppFlow = () => {
     document.getElementById("app-flow")?.scrollIntoView({ behavior: "smooth" });
@@ -27,8 +22,8 @@ export function Home() {
   return (
     <>
       <Helmet>
-        <title>VHA EduTech Academy | Excellence in Education & Arts</title>
-        <meta name="description" content="Join VHA EduTech Academy for top-tier coaching in academics, languages, dance, music, and arts. Enquire now!" />
+        <title>Vasanth Academy | Excellence in Education & Arts</title>
+        <meta name="description" content="Join Vasanth Academy for top-tier coaching in academics, languages, dance, music, and arts. Enquire now!" />
       </Helmet>
 
       {/* Hero Section */}
@@ -86,7 +81,7 @@ export function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               >
-                VHA EduTech Academy is your premier destination for holistic education. From academic excellence and languages to dance and arts, we provide world-class coaching under one roof.
+                Vasanth Academy is your premier destination for holistic education. From academic excellence and languages to dance and arts, we provide world-class coaching under one roof.
               </motion.p>
               
               <motion.div 
@@ -135,53 +130,22 @@ export function Home() {
         </div>
       </section>
 
-      {/* Courses Section */}
+      {/* Learning Programs Section */}
       <section className="py-32 relative bg-zinc-50 dark:bg-zinc-950 transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl lg:text-5xl font-display font-bold mb-6 text-foreground">Master Your Passion</h2>
-              <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
-                We offer a wide spectrum of courses taught by industry professionals and experienced educators.
-              </p>
-            </motion.div>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {courses.map((course, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group relative"
-              >
-                <div className={`absolute inset-0 bg-gradient-to-r ${course.color} rounded-3xl blur-xl opacity-0 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity duration-500`} />
-                
-                <div className="relative h-full glass-card rounded-3xl p-8 hover:bg-white dark:hover:bg-zinc-800/50 transition-colors duration-500 overflow-hidden">
-                  <div className={`h-14 w-14 rounded-2xl bg-gradient-to-br ${course.color} flex items-center justify-center text-white mb-6 shadow-lg transform group-hover:scale-110 transition-transform duration-500`}>
-                    <course.icon className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3 text-foreground">{course.title}</h3>
-                  <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    {course.desc}
-                  </p>
-                  
-                  <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-black/5 dark:bg-white/5 rounded-full blur-2xl group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors" />
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <LearningPrograms />
         </div>
       </section>
       
+      {/* Student Life & Achievements Section */}
+      <section className="py-32 relative bg-background transition-colors duration-300">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <StudentLifeGallery />
+        </div>
+      </section>
+
       {/* Exclusive App Feature Highlight - Interactive App Flow Viewer */}
-      <section className="py-32 relative overflow-hidden bg-background transition-colors duration-300">
+      <section className="py-32 relative overflow-hidden bg-zinc-50 dark:bg-zinc-950 transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <AppFlowViewer />
         </div>
