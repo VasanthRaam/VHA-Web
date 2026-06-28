@@ -1,12 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, ShieldCheck, Music, CheckCircle2 } from 'lucide-react';
+import { MapPin, ShieldCheck, Music, CheckCircle2, ChevronRight } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 export function CertificationsAndBranches() {
   const branches = [
-    { name: "Main Branch", location: "Melaputhur", color: "from-blue-600 to-indigo-600", shadow: "shadow-blue-500/30", mapUrl: "https://maps.app.goo.gl/T4sCfMVVgyvMKaMH8" },
-    { name: "Second Branch", location: "Vaiyampatti", color: "from-emerald-500 to-teal-600", shadow: "shadow-emerald-500/30" }
+    { 
+      name: "Main Branch", 
+      location: "Melaputhur", 
+      color: "from-blue-600 to-indigo-650", 
+      shadow: "shadow-blue-500/20", 
+      mapUrl: "https://maps.app.goo.gl/T4sCfMVVgyvMKaMH8",
+      embedUrl: "https://maps.google.com/maps?q=Vasanth%20Academy,%20Melapudur,%20Tiruchirappalli&t=&z=15&ie=UTF8&iwloc=&output=embed"
+    },
+    { 
+      name: "Second Branch", 
+      location: "Vaiyampatti", 
+      color: "from-emerald-600 to-teal-650", 
+      shadow: "shadow-emerald-500/20",
+      mapUrl: "https://maps.app.goo.gl/8xWf1NfPJ3thidC57",
+      embedUrl: "https://maps.google.com/maps?q=Vasanth%20Academy,%20Vaiyampatti&t=&z=15&ie=UTF8&iwloc=&output=embed"
+    }
   ];
 
   return (
@@ -79,59 +93,69 @@ export function CertificationsAndBranches() {
             </div>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">Physical Branches</h2>
             <p className="text-xl text-zinc-650 dark:text-zinc-400 max-w-2xl mx-auto">
-              Join our vibrant community in-person at our state-of-the-art facilities. Click Main Branch for Google Maps direction.
+              Join our vibrant community in-person at our state-of-the-art facilities.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-16 max-w-5xl mx-auto">
-            {branches.map((branch, idx) => {
-              const cardContent = (
-                <>
-                  <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay" />
-                  <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 rounded-full blur-[40px] group-hover:scale-150 transition-transform duration-700" />
-                  
-                  <MapPin className="w-12 h-12 text-white/90 mb-8 relative z-10" />
-                  <p className="text-white/80 font-bold tracking-widest uppercase text-sm mb-2 relative z-10">{branch.name}</p>
-                  <h3 className="text-4xl md:text-5xl font-display font-bold text-white relative z-10">{branch.location}</h3>
-                </>
-              );
-              
-              const className = cn(
-                "relative p-12 rounded-[3rem] bg-gradient-to-br text-white shadow-2xl overflow-hidden group hover:-translate-y-2 transition-transform duration-500 border border-white/10 text-left block w-full",
-                branch.color, branch.shadow
-              );
+          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {branches.map((branch, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: idx * 0.1, duration: 0.5 }}
+                className={cn(
+                  "relative p-8 rounded-[2.5rem] bg-gradient-to-br text-white shadow-2xl overflow-hidden border border-white/10 flex flex-col justify-between min-h-[520px] group",
+                  branch.color, branch.shadow
+                )}
+              >
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 mix-blend-overlay pointer-events-none" />
+                
+                <div className="relative z-10 mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-white/10 rounded-2xl">
+                      <MapPin className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-white/80 font-bold tracking-widest uppercase text-xs">{branch.name}</p>
+                      <h3 className="text-3xl font-display font-bold text-white">{branch.location}</h3>
+                    </div>
+                  </div>
+                </div>
 
-              if (branch.mapUrl) {
-                return (
-                  <motion.a
-                    href={branch.mapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={idx}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ delay: idx * 0.1, duration: 0.5 }}
-                    className={className}
-                  >
-                    {cardContent}
-                  </motion.a>
-                );
-              }
+                {/* Inline Google Map Embed */}
+                {branch.embedUrl && (
+                  <div className="w-full aspect-[4/3] rounded-2xl overflow-hidden border border-white/15 shadow-inner relative z-10 mb-6 bg-zinc-900/50">
+                    <iframe
+                      src={branch.embedUrl}
+                      title={`${branch.name} location map`}
+                      className="w-full h-full border-0"
+                      allowFullScreen={false}
+                      loading="lazy"
+                    />
+                  </div>
+                )}
 
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ delay: idx * 0.1, duration: 0.5 }}
-                  className={className}
-                >
-                  {cardContent}
-                </motion.div>
-              );
-            })}
+                {branch.mapUrl ? (
+                  <div className="relative z-10 w-full">
+                    <a
+                      href={branch.mapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center w-full px-6 py-3.5 rounded-2xl bg-white text-zinc-900 font-bold hover:bg-white/95 active:scale-98 transition-all text-center gap-2 group shadow-lg"
+                    >
+                      Open in Google Maps
+                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                  </div>
+                ) : (
+                  <div className="relative z-10 w-full text-center py-3.5 rounded-2xl bg-white/10 border border-white/10 text-white/90 text-sm font-semibold">
+                    Directions Link Pending
+                  </div>
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
 

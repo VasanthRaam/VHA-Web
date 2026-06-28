@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Award, GraduationCap, Users, BookOpen, Star } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import { ImageWithPreview } from '@/components/ui/ImageWithPreview';
 
 export function FacultyAndLeadership() {
   const successItems = [
@@ -141,11 +142,14 @@ export function FacultyAndLeadership() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
-              className="aspect-[4/4] md:aspect-[4/3] lg:aspect-square rounded-[3rem] bg-zinc-200 dark:bg-zinc-800 relative overflow-hidden flex items-center justify-center shadow-2xl"
+              className="aspect-[4/4] md:aspect-[4/3] lg:aspect-square rounded-[3rem] overflow-hidden shadow-2xl relative bg-zinc-900 border border-black/10 dark:border-white/10"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-purple-500/20 mix-blend-overlay" />
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-30" />
-              <Users className="w-32 h-32 text-zinc-500/50 dark:text-zinc-600/50 relative z-10" />
+              <ImageWithPreview 
+                src="/images/1782644368474.jpg" 
+                alt="Vasanth Academy Expert Faculty Teachers" 
+                className="w-full h-full object-cover object-center transform transition-transform duration-700 hover:scale-105"
+                loading="lazy"
+              />
             </motion.div>
           </div>
         </div>

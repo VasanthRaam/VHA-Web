@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Target, Eye, Heart, CheckCircle2 } from 'lucide-react';
+import { ImageWithPreview } from '@/components/ui/ImageWithPreview';
 
 export function MissionVision() {
   const philosophy = [
@@ -41,12 +42,14 @@ export function MissionVision() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7 }}
-            className="order-1 lg:order-2 aspect-square rounded-[3rem] bg-gradient-to-tr from-primary-500/10 to-blue-500/20 border border-primary-500/20 flex items-center justify-center relative overflow-hidden shadow-2xl"
+            className="order-1 lg:order-2 aspect-square rounded-[3rem] overflow-hidden border border-black/10 dark:border-white/10 shadow-2xl relative bg-zinc-900"
           >
-            <div className="absolute inset-0 bg-white/40 dark:bg-black/20 backdrop-blur-3xl" />
-            <div className="absolute top-10 left-10 w-32 h-32 bg-primary-500/30 rounded-full blur-[50px]" />
-            <div className="absolute bottom-10 right-10 w-32 h-32 bg-blue-500/30 rounded-full blur-[50px]" />
-            <Target className="w-40 h-40 text-primary-500 relative z-10 drop-shadow-lg" />
+            <ImageWithPreview 
+              src="/images/1782644368452.jpg" 
+              alt="Students participating in drawing competition" 
+              className="w-full h-full object-cover object-center transform transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+            />
           </motion.div>
         </div>
 
@@ -57,12 +60,14 @@ export function MissionVision() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7 }}
-            className="aspect-square rounded-[3rem] bg-gradient-to-tr from-purple-500/10 to-pink-500/20 border border-purple-500/20 flex items-center justify-center relative overflow-hidden shadow-2xl"
+            className="aspect-square rounded-[3rem] overflow-hidden border border-black/10 dark:border-white/10 shadow-2xl relative bg-zinc-900"
           >
-            <div className="absolute inset-0 bg-white/40 dark:bg-black/20 backdrop-blur-3xl" />
-            <div className="absolute top-10 right-10 w-32 h-32 bg-purple-500/30 rounded-full blur-[50px]" />
-            <div className="absolute bottom-10 left-10 w-32 h-32 bg-pink-500/30 rounded-full blur-[50px]" />
-            <Eye className="w-40 h-40 text-purple-500 relative z-10 drop-shadow-lg" />
+            <ImageWithPreview 
+              src="/images/1782644368464.jpg" 
+              alt="Students during normal classroom learning" 
+              className="w-full h-full object-cover object-center transform transition-transform duration-700 hover:scale-105"
+              loading="lazy"
+            />
           </motion.div>
           <motion.div 
             initial={{ opacity: 0, x: 40 }}

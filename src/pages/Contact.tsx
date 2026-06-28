@@ -40,8 +40,18 @@ export function Contact() {
     console.log("Enquiry Submission Payload (EnquiryData model):", payload);
 
     try {
-      // Mock API latency
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const response = await fetch("https://buddybloom.onrender.com/api/v1/enquiry/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not OK");
+      }
+
       setSubmitted(true);
       
       // Reset form fields
@@ -55,6 +65,7 @@ export function Contact() {
       });
     } catch (error) {
       console.error("Enquiry submission failed:", error);
+      alert("Enquiry submission failed. Please check your network or try again.");
     } finally {
       setLoading(false);
     }

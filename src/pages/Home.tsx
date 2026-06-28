@@ -8,6 +8,7 @@ import { Sparkles, PhoneCall, Music, BookOpen, PenTool, Globe, ChevronRight } fr
 import { AppFlowViewer } from "@/components/sections/AppFlowViewer";
 import { LearningPrograms } from "@/components/sections/LearningPrograms";
 import { StudentLifeGallery } from "@/components/sections/StudentLifeGallery";
+import { ImageWithPreview } from "@/components/ui/ImageWithPreview";
 
 export function Home() {
   const { scrollYProgress } = useScroll();
@@ -102,29 +103,21 @@ export function Home() {
               </motion.div>
             </div>
 
-            {/* Right: Single Mockup Hero Preview */}
-            <div className="relative hidden lg:flex justify-end items-center">
-              <div className="relative w-full max-w-[280px] aspect-[0.4825] drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:drop-shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
-                <div 
-                  className="absolute z-0 overflow-hidden bg-black w-[94.56%] h-[97.38%]"
-                  style={{
-                    top: "1.31%",
-                    left: "2.72%",
-                    borderRadius: "1.8rem",
-                  }}
-                >
-                  <img
-                    src="/images/1000770067.jpg"
-                    alt="Student Dashboard"
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-                <img 
-                  src="/images/phone_transparent.png" 
-                  alt="Device Mockup Frame" 
-                  className="w-full h-full relative z-10 pointer-events-none"
+            {/* Right: Hero Cover Image Card */}
+            <div className="relative flex justify-center lg:justify-end items-center w-full mt-12 lg:mt-0">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative w-full max-w-[500px] aspect-[16/10] rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-2xl border border-black/10 dark:border-white/10 group bg-zinc-900"
+              >
+                <ImageWithPreview
+                  src="/images/1782645201159.jpg"
+                  alt="Vasanth Academy Cover Photo"
+                  className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                  loading="eager"
                 />
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

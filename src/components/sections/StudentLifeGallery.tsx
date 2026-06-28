@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ChevronRight } from 'lucide-react';
+import { Play, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { cn } from '@/utils/cn';
@@ -30,8 +30,6 @@ function YouTubeThumbnail({ youtubeId, title, className }: { youtubeId: string, 
     );
   }
 
-  // maxresdefault is 1080p, hqdefault is 480p (fallback if maxres doesn't exist)
-  // Usually maxresdefault works for modern videos
   return (
     <div 
       className={cn("w-full h-full relative cursor-pointer group bg-zinc-900 overflow-hidden", className)}
@@ -40,7 +38,6 @@ function YouTubeThumbnail({ youtubeId, title, className }: { youtubeId: string, 
       <img
         src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
         onError={(e) => {
-          // Fallback to high quality if max resolution is unavailable
           (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
         }}
         alt={title}
@@ -57,12 +54,78 @@ function YouTubeThumbnail({ youtubeId, title, className }: { youtubeId: string, 
   );
 }
 
+function VideoCarousel({ videos }: { videos: typeof STUDENT_VIDEOS }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % videos.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + videos.length) % videos.length);
+  };
+
+  return (
+    <div className="relative w-full max-w-4xl mx-auto py-4">
+      {/* Slider View */}
+      <div className="overflow-hidden rounded-[2.5rem] border border-black/5 dark:border-white/10 shadow-2xl relative aspect-video bg-zinc-900">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, x: 80 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -80 }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="w-full h-full"
+          >
+            <YouTubeThumbnail youtubeId={videos[currentIndex].youtubeId} title={videos[currentIndex].title} />
+          </motion.div>
+        </AnimatePresence>
+        
+        {/* Navigation Arrows */}
+        <button 
+          onClick={handlePrev} 
+          className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors z-20 cursor-pointer shadow-lg border border-white/10"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={handleNext} 
+          className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center hover:bg-black/80 transition-colors z-20 cursor-pointer shadow-lg border border-white/10"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </div>
+      
+      {/* Indicator Dots */}
+      <div className="flex justify-center gap-2 mt-8">
+        {videos.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentIndex(idx)}
+            className={cn(
+              "w-2.5 h-2.5 rounded-full transition-all duration-300 cursor-pointer",
+              currentIndex === idx 
+                ? "bg-primary-500 w-8" 
+                : "bg-zinc-350 dark:bg-zinc-700 hover:bg-zinc-400 dark:hover:bg-zinc-600"
+            )}
+            aria-label={`Go to slide ${idx + 1}`}
+          />
+        ))}
+      </div>
+
+      <div className="mt-6 text-center px-6">
+        <h4 className="font-bold text-2xl text-foreground line-clamp-1 leading-tight">{videos[currentIndex].title}</h4>
+      </div>
+    </div>
+  );
+}
+
 export function StudentLifeGallery() {
   const [activeCategory, setActiveCategory] = useState<VideoCategory>("All");
   
-  const filteredVideos = STUDENT_VIDEOS.filter(v => activeCategory === "All" || v.category === activeCategory);
+  const filteredVideos = STUDENT_VIDEOS.filter(v => activeCategory === "All" ? v.category !== "Hindi Sessions" : v.category === activeCategory);
   
-  // Choose featured: The first featured video in the filtered list, otherwise the first video in the list
   const featuredVideo = filteredVideos.find(v => v.featured) || filteredVideos[0];
   const gridVideos = filteredVideos.filter(v => v.id !== featuredVideo?.id);
 
@@ -94,14 +157,14 @@ export function StudentLifeGallery() {
         </a>
       </div>
 
-      {/* Category Filters (Horizontal Scrollable) */}
+      {/* Category Filters */}
       <div className="flex overflow-x-auto pb-6 mb-6 -mx-6 px-6 lg:mx-0 lg:px-0 gap-3 scrollbar-hide">
         {VIDEO_CATEGORIES.map(category => (
           <button
             key={category}
             onClick={() => setActiveCategory(category)}
             className={cn(
-              "px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-bold transition-all duration-300 border",
+              "px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-bold transition-all duration-300 border cursor-pointer",
               activeCategory === category 
                 ? "bg-foreground text-background border-foreground shadow-lg scale-105"
                 : "bg-white/70 dark:bg-zinc-900/50 backdrop-blur-sm text-zinc-650 dark:text-zinc-400 border-black/5 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 hover:bg-zinc-100 dark:hover:bg-zinc-800"
@@ -115,58 +178,65 @@ export function StudentLifeGallery() {
       {/* Gallery Layout */}
       <div className="space-y-8">
         
-        {/* Featured Video */}
-        <AnimatePresence mode="wait">
-          {featuredVideo && (
-            <motion.div
-              key={featuredVideo.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
-              className="w-full aspect-video md:aspect-[21/9] rounded-[2rem] overflow-hidden shadow-2xl border border-black/5 dark:border-white/10 relative group bg-zinc-900"
-            >
-              <YouTubeThumbnail youtubeId={featuredVideo.youtubeId} title={featuredVideo.title} />
-              
-              <div className="absolute top-6 left-6 pointer-events-none z-10">
-                <span className="inline-block px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider shadow-lg border border-white/10">
-                  {featuredVideo.category}
-                </span>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Grid Videos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence mode="popLayout">
-            {gridVideos.map((video) => (
-              <motion.div
-                layout
-                key={video.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className="flex flex-col gap-4 group"
-              >
-                <div className="w-full aspect-video rounded-2xl overflow-hidden border border-black/5 dark:border-white/10 shadow-lg relative bg-zinc-900">
-                  <YouTubeThumbnail youtubeId={video.youtubeId} title={video.title} />
-                  <div className="absolute top-3 left-3 pointer-events-none z-10">
-                    <span className="inline-block px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white/90 text-[10px] font-bold uppercase tracking-wider shadow border border-white/10">
-                      {video.category}
+        {/* Render Carousel specifically for Hindi Sessions playlist */}
+        {activeCategory === "Hindi Sessions" ? (
+          <VideoCarousel videos={filteredVideos} />
+        ) : (
+          <>
+            {/* Featured Video */}
+            <AnimatePresence mode="wait">
+              {featuredVideo && (
+                <motion.div
+                  key={featuredVideo.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4 }}
+                  className="w-full aspect-video md:aspect-[21/9] rounded-[2rem] overflow-hidden shadow-2xl border border-black/5 dark:border-white/10 relative group bg-zinc-900"
+                >
+                  <YouTubeThumbnail youtubeId={featuredVideo.youtubeId} title={featuredVideo.title} />
+                  
+                  <div className="absolute top-6 left-6 pointer-events-none z-10">
+                    <span className="inline-block px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-bold uppercase tracking-wider shadow-lg border border-white/10">
+                      {featuredVideo.category}
                     </span>
                   </div>
-                </div>
-                <div className="px-1">
-                  <h4 className="font-bold text-foreground text-lg line-clamp-2 leading-tight group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                    {video.title}
-                  </h4>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Grid Videos */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <AnimatePresence mode="popLayout">
+                {gridVideos.map((video) => (
+                  <motion.div
+                    layout
+                    key={video.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex flex-col gap-4 group"
+                  >
+                    <div className="w-full aspect-video rounded-2xl overflow-hidden border border-black/5 dark:border-white/10 shadow-lg relative bg-zinc-900">
+                      <YouTubeThumbnail youtubeId={video.youtubeId} title={video.title} />
+                      <div className="absolute top-3 left-3 pointer-events-none z-10">
+                        <span className="inline-block px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white/90 text-[10px] font-bold uppercase tracking-wider shadow border border-white/10">
+                          {video.category}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="px-1">
+                      <h4 className="font-bold text-foreground text-lg line-clamp-2 leading-tight group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                        {video.title}
+                      </h4>
+                    </div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+          </>
+        )}
         
         {filteredVideos.length === 0 && (
           <motion.div 
@@ -184,3 +254,4 @@ export function StudentLifeGallery() {
     </div>
   );
 }
+
