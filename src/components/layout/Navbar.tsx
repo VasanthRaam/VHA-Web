@@ -16,8 +16,8 @@ export function Navbar() {
       {/* 1. Floating Top-Left Branding Badge */}
       <div className="fixed top-6 left-4 md:left-6 z-50 flex items-center gap-3 bg-white/85 dark:bg-zinc-900/85 border border-black/5 dark:border-white/10 px-4 py-2 rounded-2xl backdrop-blur-md shadow-lg select-none">
         <Link to="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl overflow-hidden bg-white shadow-sm border border-zinc-100 dark:border-zinc-800">
-            <img src="/images/app-logo.png" alt="VHA Logo" className="w-full h-full object-cover" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-full overflow-hidden shadow-sm">
+            <img src="/images/circle-logo.png" alt="VHA Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-zinc-900 dark:text-white font-extrabold text-sm tracking-tight">Vasanth Academy</span>
         </Link>

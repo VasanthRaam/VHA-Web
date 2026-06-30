@@ -15,8 +15,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="col-span-1">
             <Link to="/" className="flex items-center gap-3 text-2xl font-display font-bold tracking-tight text-foreground mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl overflow-hidden bg-white">
-                <img src="/images/app-logo.png" alt="VHA EduTech Logo" className="w-full h-full object-cover" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-full overflow-hidden">
+                <img src="/images/circle-logo.png" alt="VHA EduTech Logo" className="w-full h-full object-cover" />
               </div>
               Vasanth Academy
             </Link>

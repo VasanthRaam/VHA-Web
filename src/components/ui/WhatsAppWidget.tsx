@@ -113,9 +113,9 @@ export function WhatsAppWidget() {
             <div className="bg-gradient-to-r from-emerald-600 to-teal-700 dark:from-emerald-700 dark:to-teal-800 p-4 text-white flex items-center justify-between shadow-md">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 bg-white flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 flex items-center justify-center">
                     <img 
-                      src="/images/app-logo.png" 
+                      src="/images/circle-logo.png" 
                       alt="Vasanth Academy" 
                       className="w-full h-full object-cover"
                       onError={(e) => {
