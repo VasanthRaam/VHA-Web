@@ -83,8 +83,8 @@ export function FacultyAndLeadership() {
               <div className="w-32 h-32 mx-auto rounded-[2rem] bg-gradient-to-br from-primary-500 to-blue-500 mb-8 flex items-center justify-center text-white text-5xl font-display font-bold shadow-xl shadow-primary-500/20 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
                 R
               </div>
-              <h3 className="text-3xl font-display font-bold text-foreground mb-3">Mrs. Revathi G.</h3>
-              <p className="text-primary-600 dark:text-primary-400 font-bold mb-6 uppercase tracking-widest text-sm">Founder & Proprietor</p>
+              <h3 className="text-3xl font-display font-bold text-foreground mb-3">Mrs. Revathi Ganesh Kanna</h3>
+              <p className="text-primary-600 dark:text-primary-400 font-bold mb-6 uppercase tracking-widest text-sm">Founder, Proprietor & Hindi Pandit</p>
               <p className="text-zinc-650 dark:text-zinc-400 leading-relaxed">
                 A passionate educator whose dedication to personalized teaching laid the foundation for the academy.
               </p>

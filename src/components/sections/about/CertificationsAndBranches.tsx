@@ -91,7 +91,7 @@ export function CertificationsAndBranches() {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 mb-6 font-bold uppercase tracking-wider text-sm border border-blue-500/20">
               <MapPin className="w-4 h-4" /> Our Locations
             </div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">Physical Branches</h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-6">Our Branches</h2>
             <p className="text-xl text-zinc-650 dark:text-zinc-400 max-w-2xl mx-auto">
               Join our vibrant community in-person at our state-of-the-art facilities.
             </p>
